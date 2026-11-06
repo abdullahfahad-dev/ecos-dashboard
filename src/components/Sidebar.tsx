@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -22,6 +22,9 @@ import {
   Zap,
   Crown,
   ArrowRight,
+  Search,
+  LayoutGrid,
+  ChevronDown,
 } from "lucide-react";
 
 interface SidebarProps {
@@ -29,13 +32,20 @@ interface SidebarProps {
   onClose?: () => void;
 }
 
-const navItems = [
+const overviewSubItems = [
   {
     name: "Dashboard",
-    icon: Home,
+    icon: LayoutGrid,
     href: "/",
-    active: true,
   },
+  {
+    name: "Analytics",
+    icon: BarChart3,
+    href: "/analytics",
+  },
+];
+
+const navItems = [
   {
     name: "Orders",
     icon: ShoppingBag,
@@ -125,6 +135,7 @@ const navItems = [
 
 function Sidebar({ isOpen = false, onClose }: SidebarProps) {
   const pathname = usePathname();
+  const [overviewOpen, setOverviewOpen] = useState(true);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -170,12 +181,74 @@ function Sidebar({ isOpen = false, onClose }: SidebarProps) {
           </div>
         </div>
 
+        <div className="px-3.5 pb-2 md:hidden">
+          <div className="relative flex items-center w-full">
+            <Search className="absolute left-3 w-3.5 h-3.5 text-[var(--left-text-muted)] pointer-events-none shrink-0" />
+            <input
+              type="text"
+              placeholder="Search..."
+              className="w-full h-[36px] pl-9 pr-3 bg-white/5 border border-[var(--left-card-border)] rounded-xl text-[12px] text-[var(--left-text-main)] placeholder:text-[var(--left-text-muted)] focus:outline-none focus:border-[var(--primary-color)]"
+            />
+          </div>
+        </div>
+
         <nav aria-label="Main navigation" className="flex-1 overflow-y-auto px-3.5 py-2 space-y-1 scrollbar-thin scrollbar-thumb-slate-800">
+          <div className="flex flex-col mb-1">
+            <button
+              type="button"
+              onClick={() => setOverviewOpen(!overviewOpen)}
+              className="flex items-center justify-between w-full pl-3 py-1.5 text-[11px] font-bold uppercase tracking-wider text-[var(--left-text-muted)] hover:text-[var(--left-text-main)] transition-colors cursor-pointer"
+            >
+              <span>OVERVIEW</span>
+              <ChevronDown
+                className={`w-3.5 h-3.5 text-slate-500 transition-transform duration-200 shrink-0 origin-center ${
+                  overviewOpen ? "" : "rotate-180"
+                }`}
+              />
+            </button>
+
+            {overviewOpen && (
+              <div className="flex flex-col space-y-1 mt-1 p-1 bg-white/[0.03] border border-white/[0.06] rounded-2xl">
+                {overviewSubItems.map((sub) => {
+                  const SubIcon = sub.icon;
+                  const isCurrent = sub.href === "/"
+                    ? pathname === "/"
+                    : pathname === sub.href || pathname.startsWith(`${sub.href}/`);
+
+                  if (isCurrent) {
+                    return (
+                      <Link
+                        key={sub.name}
+                        href={sub.href}
+                        onClick={onClose}
+                        aria-current="page"
+                        className="flex items-center gap-3 px-3 py-2 rounded-xl bg-[var(--primary-color)] text-[var(--primary-text)] text-[14px] font-semibold shadow-xs transition-all cursor-pointer"
+                      >
+                        <SubIcon className="w-4 h-4 shrink-0" />
+                        <span className="truncate">{sub.name}</span>
+                      </Link>
+                    );
+                  }
+
+                  return (
+                    <Link
+                      key={sub.name}
+                      href={sub.href}
+                      onClick={onClose}
+                      className="flex items-center gap-3 px-3 py-2 rounded-xl text-[var(--left-text-muted)] hover:text-[var(--left-text-main)] hover:bg-white/5 transition-colors text-[14px] cursor-pointer"
+                    >
+                      <SubIcon className="w-4 h-4 shrink-0 text-[var(--left-text-muted)]" />
+                      <span className="truncate">{sub.name}</span>
+                    </Link>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+
           {navItems.map((item) => {
             const Icon = item.icon;
-            const isActive = item.href === "/"
-              ? pathname === "/"
-              : pathname === item.href || pathname.startsWith(`${item.href}/`);
+            const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
 
             if (isActive) {
               return (

@@ -59,7 +59,7 @@ const productsData: ProductItem[] = [
 
 export default function TopSellingProducts() {
   return (
-    <div className="flex flex-col justify-between p-4 sm:p-5 bg-[var(--right-bg)] border border-[var(--right-border)] rounded-2xl shadow-xs w-full h-full min-h-[338px]">
+    <div className="flex flex-col justify-between p-4 sm:p-5 border border-[var(--right-border)] rounded-2xl shadow-xs w-full h-full min-h-[338px]">
       <div className="flex items-center justify-between pb-3">
         <div className="flex items-center gap-3">
           <ThemeIconBox icon={Tag} size="md" />

@@ -57,7 +57,7 @@ function SalesRevenueChartComponent() {
   const [activeTab, setActiveTab] = useState<"Revenue" | "Orders" | "Customers">("Revenue");
 
   return (
-    <div className="flex flex-col justify-between p-4 sm:p-5 bg-[var(--right-bg)] border border-[var(--right-border)] rounded-2xl shadow-xs w-full h-full min-h-[300px]">
+    <div className="flex flex-col justify-between p-4 sm:p-5 border border-[var(--right-border)] rounded-2xl shadow-xs w-full h-full min-h-[300px]">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3">
         <div className="flex items-center gap-3">
           <ThemeIconBox icon={TrendingUp} size="md" />
@@ -83,7 +83,7 @@ function SalesRevenueChartComponent() {
             ))}
           </div>
 
-          <button className="flex items-center justify-center gap-1.5 px-3 py-1.5 h-[34px] bg-[var(--right-bg)] border border-[var(--right-border)] rounded-xl text-[12px] font-medium text-[var(--right-text-main)] hover:bg-[var(--right-surface)] transition-colors cursor-pointer shrink-0">
+          <button className="flex items-center justify-center gap-1.5 px-3 py-1.5 h-[34px] border border-[var(--right-border)] rounded-xl text-[12px] font-medium text-[var(--right-text-main)] hover:bg-[var(--right-surface)] transition-colors cursor-pointer shrink-0">
             <span>Monthly</span>
             <ChevronDown className="w-3.5 h-3.5 text-[var(--right-text-subtle)]" />
           </button>

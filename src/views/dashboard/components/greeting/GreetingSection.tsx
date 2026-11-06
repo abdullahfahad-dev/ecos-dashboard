@@ -17,7 +17,7 @@ export default function GreetingSection() {
       </div>
 
       <div className="flex items-center gap-3 shrink-0">
-        <button className="flex items-center gap-2 h-[34px] px-3.5 bg-[var(--right-bg)] border border-[var(--right-border)] rounded-xl hover:bg-[var(--right-surface)] text-[var(--right-text-main)] shadow-2xs cursor-pointer">
+        <button className="flex items-center gap-2 h-[34px] px-3.5 border border-[var(--right-border)] rounded-xl hover:bg-[var(--right-surface)] text-[var(--right-text-main)] shadow-2xs cursor-pointer">
           <Calendar className="w-3.5 h-3.5 text-[var(--right-text-muted)]" />
           <span className="text-[12px] font-medium">
             Last 30 days

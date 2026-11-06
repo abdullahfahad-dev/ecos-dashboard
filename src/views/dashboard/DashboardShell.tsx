@@ -16,9 +16,9 @@ export default function DashboardShell({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[var(--right-bg)] flex">
+    <div className="min-h-screen flex">
       <Sidebar isOpen={sidebarOpen} onClose={handleCloseSidebar} />
-      <div className="flex-1 flex flex-col min-w-0 md:pl-[256px] bg-[var(--right-bg)]">
+      <div className="flex-1 flex flex-col min-w-0 md:pl-[256px]">
         <Header
           onMenuClick={handleOpenSidebar}
           sidebarOpen={sidebarOpen}

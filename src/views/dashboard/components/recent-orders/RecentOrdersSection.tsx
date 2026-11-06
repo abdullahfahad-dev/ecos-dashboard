@@ -141,7 +141,7 @@ const paymentStyles = {
 
 export default function RecentOrdersSection() {
   return (
-    <div className="flex flex-col p-4 sm:p-5 bg-[var(--right-bg)] border border-[var(--right-border)] rounded-2xl shadow-xs w-full">
+    <div className="flex flex-col p-4 sm:p-5 border border-[var(--right-border)] rounded-2xl shadow-xs w-full">
       <div className="flex items-center justify-between pb-4">
         <div className="flex items-center gap-2.5">
           <ThemeIconBox icon={ShoppingBag} size="md" />

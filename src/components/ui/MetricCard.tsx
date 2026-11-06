@@ -25,7 +25,7 @@ export default function MetricCard({
 }: MetricCardProps) {
   return (
     <div
-      className={`flex items-center gap-3.5 p-4 bg-[var(--right-bg)] border border-[var(--right-border)] rounded-xl shadow-xs hover:shadow-sm transition-shadow ${className}`}
+      className={`flex items-center gap-3.5 p-4 border border-[var(--right-border)] rounded-xl shadow-xs hover:shadow-sm transition-shadow ${className}`}
     >
       <ThemeIconBox icon={icon} size="lg" />
 

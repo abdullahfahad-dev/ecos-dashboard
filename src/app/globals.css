@@ -34,18 +34,29 @@ html[data-theme="dark"],
   --right-text-subtle: #64748B;
 }
 
-*,
-*::before,
-*::after {
-  transition-property: background-color, border-color, color, fill, stroke;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 250ms;
-}
-
 body {
   background-color: var(--right-bg);
   color: var(--right-text-main);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+body,
+header,
+main,
+aside,
+input,
+button,
+div,
+span,
+table,
+thead,
+tbody,
+tr,
+th,
+td {
+  transition-property: background-color, border-color, color;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 250ms;
 }
 
 button, a, [role="button"] {

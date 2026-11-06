@@ -11,6 +11,7 @@ import {
   Menu,
   Sun,
   Moon,
+  Zap,
 } from "lucide-react";
 
 interface HeaderProps {
@@ -53,14 +54,23 @@ function HeaderComponent({ onMenuClick, sidebarOpen = false }: HeaderProps) {
           <Menu className="w-5 h-5" />
         </button>
 
-        <div className="relative flex items-center w-full min-w-0">
+        <div className="flex items-center gap-2 md:hidden min-w-0">
+          <div className="flex items-center justify-center w-7 h-7 rounded-lg bg-[var(--primary-color)] text-white shadow-xs shrink-0">
+            <Zap className="w-4 h-4 fill-current" />
+          </div>
+          <span className="text-[15px] font-bold text-[var(--right-text-main)] truncate leading-tight tracking-tight">
+            Fast Softun
+          </span>
+        </div>
+
+        <div className="relative hidden md:flex items-center w-full min-w-0">
           <Search className="absolute left-3 w-3.5 h-3.5 text-[var(--right-text-subtle)] pointer-events-none shrink-0" />
           <input
             type="text"
             placeholder="Search orders, products, customers..."
-            className="w-full h-[34px] pl-9 pr-3 sm:pr-14 bg-[var(--right-surface)] border border-[var(--right-border)] rounded-xl text-[12px] text-[var(--right-text-main)] placeholder:text-[var(--right-text-subtle)] focus:outline-none focus:border-[var(--primary-color)] focus:ring-1 focus:ring-[var(--primary-color)]"
+            className="w-full h-[34px] pl-9 pr-14 bg-[var(--right-surface)] border border-[var(--right-border)] rounded-xl text-[12px] text-[var(--right-text-main)] placeholder:text-[var(--right-text-subtle)] focus:outline-none focus:border-[var(--primary-color)] focus:ring-1 focus:ring-[var(--primary-color)]"
           />
-          <div className="absolute right-2 hidden sm:flex items-center px-1.5 py-0.5 bg-[var(--right-bg)] border border-[var(--right-border)] rounded text-[10px] font-mono font-semibold text-[var(--right-text-subtle)] pointer-events-none shadow-2xs">
+          <div className="absolute right-2 flex items-center px-1.5 py-0.5 border border-[var(--right-border)] rounded text-[10px] font-mono font-semibold text-[var(--right-text-subtle)] pointer-events-none shadow-2xs">
             Ctrl K
           </div>
         </div>
