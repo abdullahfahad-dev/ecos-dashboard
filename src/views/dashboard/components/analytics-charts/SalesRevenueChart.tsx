@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, memo } from "react";
+import ThemeIconBox from "@/components/ui/ThemeIconBox";
 import { TrendingUp, ChevronDown } from "lucide-react";
 import {
   AreaChart,
@@ -52,21 +53,14 @@ function CustomTooltip({ active, payload }: { active?: boolean; payload?: Array<
   return null;
 }
 
-export default function SalesRevenueChart() {
+function SalesRevenueChartComponent() {
   const [activeTab, setActiveTab] = useState<"Revenue" | "Orders" | "Customers">("Revenue");
 
   return (
     <div className="flex flex-col justify-between p-4 sm:p-5 bg-[var(--right-bg)] border border-[var(--right-border)] rounded-2xl shadow-xs w-full h-full min-h-[300px]">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3">
         <div className="flex items-center gap-3">
-          <div
-            className="flex items-center justify-center w-9 h-9 rounded-xl text-[var(--primary-color)] shrink-0"
-            style={{
-              backgroundColor: "color-mix(in srgb, var(--primary-color) 30%, transparent)",
-            }}
-          >
-            <TrendingUp className="w-5 h-5" />
-          </div>
+          <ThemeIconBox icon={TrendingUp} size="md" />
           <h3 className="text-[15px] sm:text-[16px] font-bold text-[var(--right-text-main)] leading-tight">
             Sales &amp; Revenue Overview
           </h3>
@@ -160,3 +154,5 @@ export default function SalesRevenueChart() {
     </div>
   );
 }
+
+export default memo(SalesRevenueChartComponent);

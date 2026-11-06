@@ -1,7 +1,9 @@
 import DashboardShell from "./DashboardShell";
-import GreetingSection from "./components/GreetingSection";
-import StatsOverviewSection from "./components/StatsOverviewSection";
-import AnalyticsChartsSection from "./components/AnalyticsChartsSection";
+import GreetingSection from "./components/greeting/GreetingSection";
+import StatsOverviewSection from "./components/stats-overview/StatsOverviewSection";
+import AnalyticsChartsSection from "./components/analytics-charts/AnalyticsChartsSection";
+import ProductsAndStorageSection from "./components/products-storage/ProductsAndStorageSection";
+import RecentOrdersSection from "./components/recent-orders/RecentOrdersSection";
 
 export default function DashboardView() {
   return (
@@ -10,10 +12,8 @@ export default function DashboardView() {
         <GreetingSection />
         <StatsOverviewSection />
         <AnalyticsChartsSection />
-
-        <div className="border border-dashed border-[var(--right-border)] rounded-2xl p-8 text-center text-[var(--right-text-muted)] bg-[var(--right-surface)]">
-          Next Sections Area
-        </div>
+        <ProductsAndStorageSection />
+        <RecentOrdersSection />
       </main>
     </DashboardShell>
   );

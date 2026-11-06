@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useSyncExternalStore } from "react";
+import React, { memo, useSyncExternalStore, useRef, useCallback } from "react";
 import { useTheme } from "next-themes";
 import {
   Search,
@@ -22,19 +22,23 @@ const subscribe = () => () => {};
 const getMountedSnapshot = () => true;
 const getServerSnapshot = () => false;
 
-export default function Header({ onMenuClick, sidebarOpen = false }: HeaderProps) {
+function HeaderComponent({ onMenuClick, sidebarOpen = false }: HeaderProps) {
   const { theme, setTheme } = useTheme();
   const mounted = useSyncExternalStore(subscribe, getMountedSnapshot, getServerSnapshot);
+  const isTransitioningRef = useRef(false);
 
   const isDark = mounted && theme === "dark";
 
-  const toggleTheme = () => {
-    document.documentElement.classList.add("theme-transition");
+  const toggleTheme = useCallback(() => {
+    if (isTransitioningRef.current) return;
+
+    isTransitioningRef.current = true;
     setTheme(isDark ? "light" : "dark");
+
     window.setTimeout(() => {
-      document.documentElement.classList.remove("theme-transition");
+      isTransitioningRef.current = false;
     }, 250);
-  };
+  }, [isDark, setTheme]);
 
   return (
     <header className="sticky top-0 z-30 flex items-center justify-between h-16 px-3 sm:px-4 md:px-6 bg-[var(--right-bg)] border-b border-[var(--right-border)]">
@@ -120,3 +124,5 @@ export default function Header({ onMenuClick, sidebarOpen = false }: HeaderProps
     </header>
   );
 }
+
+export default memo(HeaderComponent);

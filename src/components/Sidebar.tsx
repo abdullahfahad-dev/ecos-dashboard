@@ -123,7 +123,7 @@ const navItems = [
   },
 ];
 
-export default function Sidebar({ isOpen = false, onClose }: SidebarProps) {
+function Sidebar({ isOpen = false, onClose }: SidebarProps) {
   const pathname = usePathname();
 
   useEffect(() => {
@@ -273,3 +273,5 @@ export default function Sidebar({ isOpen = false, onClose }: SidebarProps) {
     </>
   );
 }
+
+export default React.memo(Sidebar);

@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React, { memo, useMemo } from "react";
+import ThemeIconBox from "@/components/ui/ThemeIconBox";
 import { Package } from "lucide-react";
-import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
+import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 
 interface OrderStatus {
   label: string;
@@ -22,69 +23,27 @@ const defaultStatusData: OrderStatus[] = [
   { label: "Cancelled", count: 20, color: "#F43F5E" },
 ];
 
-function DonutTooltip({
-  active,
-  payload,
-  total,
-}: {
-  active?: boolean;
-  payload?: Array<{ payload?: OrderStatus }>;
-  total: number;
-}) {
-  if (active && payload && payload.length) {
-    const item = payload[0].payload;
-    if (!item) return null;
-
-    const percentage = total > 0 ? ((item.count / total) * 100).toFixed(1) : "0.0";
-
-    return (
-      <div className="z-30 pointer-events-none animate-in fade-in zoom-in-95 duration-200">
-        <div className="flex flex-col items-center px-3 py-1.5 bg-[var(--right-bg)] border border-[var(--right-border)] rounded-xl shadow-xl backdrop-blur-xs">
-          <div className="flex items-center gap-1.5 mb-0.5">
-            <span
-              className="w-2 h-2 rounded-full shrink-0"
-              style={{ backgroundColor: item.color }}
-            />
-            <span className="text-[11px] font-semibold text-[var(--right-text-subtle)]">
-              {item.label}
-            </span>
-          </div>
-          <span className="text-[13px] font-extrabold text-[var(--right-text-main)] leading-tight">
-            {item.count.toLocaleString()} ({percentage}%)
-          </span>
-        </div>
-      </div>
-    );
-  }
-  return null;
-}
-
-export default function OrdersStatusDonut({
+function OrdersStatusDonutComponent({
   data = defaultStatusData,
 }: OrdersStatusDonutProps) {
+  const chartData = data ?? defaultStatusData;
+
   const totalCount = useMemo(
-    () => data.reduce((acc, curr) => acc + curr.count, 0),
-    [data]
+    () => chartData.reduce((acc, curr) => acc + curr.count, 0),
+    [chartData]
   );
 
   const formattedList = useMemo(() => {
-    return data.map((item) => ({
+    return chartData.map((item) => ({
       ...item,
       percentage: totalCount > 0 ? `${((item.count / totalCount) * 100).toFixed(1)}%` : "0.0%",
     }));
-  }, [data, totalCount]);
+  }, [chartData, totalCount]);
 
   return (
     <div className="flex flex-col justify-between p-4 sm:p-5 bg-[var(--right-bg)] border border-[var(--right-border)] rounded-2xl shadow-xs w-full h-full min-h-[300px]">
       <div className="flex items-center gap-3 pb-2">
-        <div
-          className="flex items-center justify-center w-9 h-9 rounded-xl text-[var(--primary-color)] shrink-0"
-          style={{
-            backgroundColor: "color-mix(in srgb, var(--primary-color) 30%, transparent)",
-          }}
-        >
-          <Package className="w-5 h-5" />
-        </div>
+        <ThemeIconBox icon={Package} size="md" />
         <h3 className="text-[16px] font-bold text-[var(--right-text-main)] leading-tight">
           Orders by Status
         </h3>
@@ -94,13 +53,8 @@ export default function OrdersStatusDonut({
         <div className="relative w-[150px] h-[150px] shrink-0 flex items-center justify-center">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
-              <Tooltip
-                content={<DonutTooltip total={totalCount} />}
-                allowEscapeViewBox={{ x: true, y: true }}
-                wrapperStyle={{ zIndex: 40, outline: "none" }}
-              />
               <Pie
-                data={data}
+                data={chartData}
                 dataKey="count"
                 nameKey="label"
                 cx="50%"
@@ -113,7 +67,7 @@ export default function OrdersStatusDonut({
                 animationDuration={800}
                 animationEasing="ease-out"
               >
-                {data.map((item) => (
+                {chartData.map((item) => (
                   <Cell
                     key={item.label}
                     fill={item.color}
@@ -166,3 +120,5 @@ export default function OrdersStatusDonut({
     </div>
   );
 }
+
+export default memo(OrdersStatusDonutComponent);
