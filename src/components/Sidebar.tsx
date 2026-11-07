@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-  Home,
   ShoppingBag,
   Package,
   Layers,
@@ -25,6 +24,7 @@ import {
   Search,
   LayoutGrid,
   ChevronDown,
+  CalendarDays,
 } from "lucide-react";
 
 interface SidebarProps {
@@ -45,6 +45,26 @@ const overviewSubItems = [
   },
 ];
 
+const catalogSubItems = [
+  {
+    name: "Categories",
+    icon: Layers,
+    href: "/categories",
+  },
+  {
+    name: "Products",
+    icon: Package,
+    href: "/products",
+  },
+  {
+    name: "Events",
+    icon: CalendarDays,
+    href: "/events",
+    badge: "New",
+    badgeClass: "bg-[var(--badge-accent)]",
+  },
+];
+
 const navItems = [
   {
     name: "Orders",
@@ -52,17 +72,6 @@ const navItems = [
     href: "/orders",
     badge: "24",
     badgeClass: "bg-[var(--primary-color)]",
-  },
-  {
-    name: "Products",
-    icon: Package,
-    href: "/products",
-    hasSubmenu: true,
-  },
-  {
-    name: "Categories",
-    icon: Layers,
-    href: "/categories",
   },
   {
     name: "Customers",
@@ -105,11 +114,6 @@ const navItems = [
     badgeClass: "bg-[var(--badge-accent)]",
   },
   {
-    name: "Reports & Analytics",
-    icon: BarChart3,
-    href: "/analytics",
-  },
-  {
     name: "Storefront",
     icon: Store,
     href: "/storefront",
@@ -136,6 +140,7 @@ const navItems = [
 function Sidebar({ isOpen = false, onClose }: SidebarProps) {
   const pathname = usePathname();
   const [overviewOpen, setOverviewOpen] = useState(true);
+  const [catalogOpen, setCatalogOpen] = useState(true);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -246,6 +251,75 @@ function Sidebar({ isOpen = false, onClose }: SidebarProps) {
             )}
           </div>
 
+          <div className="flex flex-col mb-1 pt-1">
+            <button
+              type="button"
+              onClick={() => setCatalogOpen(!catalogOpen)}
+              className="flex items-center justify-between w-full pl-3 py-1.5 text-[11px] font-bold uppercase tracking-wider text-[var(--left-text-muted)] hover:text-[var(--left-text-main)] transition-colors cursor-pointer"
+            >
+              <span>CATALOG</span>
+              <ChevronDown
+                className={`w-3.5 h-3.5 text-slate-500 transition-transform duration-200 shrink-0 origin-center ${
+                  catalogOpen ? "" : "rotate-180"
+                }`}
+              />
+            </button>
+
+            {catalogOpen && (
+              <div className="flex flex-col space-y-1 mt-1 p-1 bg-white/[0.03] border border-white/[0.06] rounded-2xl">
+                {catalogSubItems.map((sub) => {
+                  const SubIcon = sub.icon;
+                  const isCurrent = pathname === sub.href || pathname.startsWith(`${sub.href}/`);
+
+                  if (isCurrent) {
+                    return (
+                      <Link
+                        key={sub.name}
+                        href={sub.href}
+                        onClick={onClose}
+                        aria-current="page"
+                        className="flex items-center justify-between px-3 py-2 rounded-xl bg-[var(--primary-color)] text-[var(--primary-text)] text-[14px] font-semibold shadow-xs transition-all cursor-pointer"
+                      >
+                        <div className="flex items-center gap-3 min-w-0">
+                          <SubIcon className="w-4 h-4 shrink-0" />
+                          <span className="truncate">{sub.name}</span>
+                        </div>
+                        {sub.badge && (
+                          <span
+                            className={`${sub.badgeClass} text-white font-semibold text-[10px] px-2 py-0.5 rounded-full uppercase tracking-wider shrink-0 shadow-xs`}
+                          >
+                            {sub.badge}
+                          </span>
+                        )}
+                      </Link>
+                    );
+                  }
+
+                  return (
+                    <Link
+                      key={sub.name}
+                      href={sub.href}
+                      onClick={onClose}
+                      className="flex items-center justify-between px-3 py-2 rounded-xl text-[var(--left-text-muted)] hover:text-[var(--left-text-main)] hover:bg-white/5 transition-colors text-[14px] cursor-pointer"
+                    >
+                      <div className="flex items-center gap-3 min-w-0">
+                        <SubIcon className="w-4 h-4 shrink-0 text-[var(--left-text-muted)]" />
+                        <span className="truncate">{sub.name}</span>
+                      </div>
+                      {sub.badge && (
+                        <span
+                          className={`${sub.badgeClass} text-white font-semibold text-[10px] px-2 py-0.5 rounded-full uppercase tracking-wider shrink-0 shadow-xs`}
+                        >
+                          {sub.badge}
+                        </span>
+                      )}
+                    </Link>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
@@ -269,7 +343,7 @@ function Sidebar({ isOpen = false, onClose }: SidebarProps) {
               <Link
                 key={item.name}
                 href={item.href}
-                  onClick={onClose}
+                onClick={onClose}
                 className="flex items-center justify-between px-3.5 py-2 rounded-xl text-[var(--left-text-muted)] hover:text-[var(--left-text-main)] hover:bg-white/5 transition-colors group text-[14px] cursor-pointer"
               >
                 <div className="flex items-center gap-3 min-w-0">

@@ -1,17 +1,9 @@
-import React from "react";
+import React, { memo } from "react";
 import Link from "next/link";
 import ThemeIconBox from "@/components/ui/ThemeIconBox";
-import {
-  Tag,
-  ArrowRight,
-  Headphones,
-  Watch,
-  Shirt,
-  Zap,
-  Briefcase,
-} from "lucide-react";
+import { Tag, ArrowRight } from "lucide-react";
 
-interface ProductItem {
+export interface ProductItem {
   id: string;
   name: string;
   units: number;
@@ -19,67 +11,51 @@ interface ProductItem {
   icon: React.ElementType;
 }
 
-const productsData: ProductItem[] = [
-  {
-    id: "1",
-    name: "Wireless Headphone",
-    units: 312,
-    revenue: "৳62,400",
-    icon: Headphones,
-  },
-  {
-    id: "2",
-    name: "Smart Watch Pro",
-    units: 198,
-    revenue: "৳49,500",
-    icon: Watch,
-  },
-  {
-    id: "3",
-    name: "Cotton Polo T-shirt",
-    units: 176,
-    revenue: "৳31,680",
-    icon: Shirt,
-  },
-  {
-    id: "4",
-    name: "USB-C Fast Charger",
-    units: 142,
-    revenue: "৳12,780",
-    icon: Zap,
-  },
-  {
-    id: "5",
-    name: "Backpack (Anti Theft)",
-    units: 118,
-    revenue: "৳11,800",
-    icon: Briefcase,
-  },
-];
+export interface TopSellingProductsProps {
+  title?: string;
+  viewAllHref?: string;
+  viewAllLabel?: string;
+  products: ProductItem[];
+  icon?: React.ElementType;
+  className?: string;
+}
 
-export default function TopSellingProducts() {
+function TopSellingProductsComponent({
+  title = "Top Selling Products",
+  viewAllHref = "/products",
+  viewAllLabel = "View All",
+  products,
+  icon: HeaderIcon = Tag,
+  className = "",
+}: TopSellingProductsProps) {
   return (
-    <div className="flex flex-col justify-between p-4 sm:p-5 border border-[var(--right-border)] rounded-2xl shadow-xs w-full h-full min-h-[338px]">
+    <div
+      className={`flex flex-col justify-between p-4 sm:p-5 border border-[var(--right-border)] rounded-2xl shadow-xs w-full h-full min-h-[338px] ${className}`}
+      role="region"
+      aria-label={title}
+    >
       <div className="flex items-center justify-between pb-3">
         <div className="flex items-center gap-3">
-          <ThemeIconBox icon={Tag} size="md" />
+          <ThemeIconBox icon={HeaderIcon} size="md" />
           <h3 className="text-[16px] font-bold text-[var(--right-text-main)] leading-tight">
-            Top Selling Products
+            {title}
           </h3>
         </div>
 
-        <Link
-          href="/products"
-          className="flex items-center gap-1 text-[12px] font-semibold text-[var(--primary-color)] hover:opacity-85 transition-opacity cursor-pointer shrink-0"
-        >
-          <span>View All</span>
-          <ArrowRight className="w-3.5 h-3.5" />
-        </Link>
+        {viewAllHref && (
+          <Link
+            href={viewAllHref}
+            className="flex items-center gap-1 text-[12px] font-semibold text-[var(--primary-color)] hover:opacity-85 transition-opacity cursor-pointer shrink-0"
+          >
+            <span>{viewAllLabel}</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
+        )}
       </div>
 
       <div className="flex flex-col flex-1 divide-y divide-[var(--right-border)] pt-1">
-        {productsData.map((product) => {
-          const Icon = product.icon;
+        {products.map((product) => {
+          const ProductIcon = product.icon;
 
           return (
             <div
@@ -88,7 +64,7 @@ export default function TopSellingProducts() {
             >
               <div className="flex items-center gap-3 min-w-0 pr-2">
                 <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-[var(--right-surface)] text-[var(--right-text-main)] shrink-0 border border-[var(--right-border)]">
-                  <Icon className="w-4 h-4" />
+                  <ProductIcon className="w-4 h-4" />
                 </div>
                 <span className="text-[13px] sm:text-[14px] font-semibold text-[var(--right-text-main)] truncate">
                   {product.name}
@@ -110,4 +86,6 @@ export default function TopSellingProducts() {
     </div>
   );
 }
+
+export default memo(TopSellingProductsComponent);
 

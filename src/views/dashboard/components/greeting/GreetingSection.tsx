@@ -1,4 +1,7 @@
+"use client";
+
 import React from "react";
+import PeriodDropdown from "@/components/ui/PeriodDropdown";
 import { Calendar, ChevronDown, Plus } from "lucide-react";
 
 export default function GreetingSection() {
@@ -17,13 +20,11 @@ export default function GreetingSection() {
       </div>
 
       <div className="flex items-center gap-3 shrink-0">
-        <button className="flex items-center gap-2 h-[34px] px-3.5 border border-[var(--right-border)] rounded-xl hover:bg-[var(--right-surface)] text-[var(--right-text-main)] shadow-2xs cursor-pointer">
-          <Calendar className="w-3.5 h-3.5 text-[var(--right-text-muted)]" />
-          <span className="text-[12px] font-medium">
-            Last 30 days
-          </span>
-          <ChevronDown className="w-3 h-3 text-[var(--right-text-subtle)]" />
-        </button>
+        <PeriodDropdown
+          value="Last 30 days"
+          options={["Today", "Last 7 days", "Last 30 days", "This Month", "Last 90 days"]}
+          icon={Calendar}
+        />
 
         <button className="flex items-center gap-2 h-[34px] px-4 bg-[var(--primary-color)] hover:bg-[var(--primary-hover)] text-[var(--primary-text)] rounded-xl shadow-xs cursor-pointer">
           <Plus className="w-3.5 h-3.5" />

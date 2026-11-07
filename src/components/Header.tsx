@@ -42,7 +42,7 @@ function HeaderComponent({ onMenuClick, sidebarOpen = false }: HeaderProps) {
   }, [isDark, setTheme]);
 
   return (
-    <header className="sticky top-0 z-30 flex items-center justify-between h-16 px-3 sm:px-4 md:px-6 bg-[var(--right-bg)] border-b border-[var(--right-border)]">
+    <header className="sticky top-0 z-30 w-full bg-[var(--right-bg)] border-b border-[var(--right-border)] flex items-center justify-between h-16 px-4 md:px-6 lg:px-8">
       <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0 max-w-[384px]">
         <button
           onClick={onMenuClick}
