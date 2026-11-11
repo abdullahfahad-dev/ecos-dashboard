@@ -41,7 +41,7 @@ function SalesReportCardComponent({
         </div>
 
         <PeriodDropdown
-          value={periodLabel}
+          defaultValue={periodLabel}
           options={["Last 7 Days", "Last 4 Weeks", "Last 26 Weeks", "This Year"]}
           roundedFull={true}
         />

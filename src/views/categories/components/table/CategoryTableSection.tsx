@@ -4,7 +4,8 @@ import React, { useState } from "react";
 import Image from "next/image";
 import DataTableCard, { ColumnDef } from "@/components/ui/DataTableCard";
 import PeriodDropdown from "@/components/ui/PeriodDropdown";
-import { SlidersHorizontal, Edit2, Trash2, Eye } from "lucide-react";
+import TableFilterDropdown from "@/components/ui/TableFilterDropdown";
+import { Edit2, Trash2, Eye } from "lucide-react";
 
 export interface CategoryData {
   id: string;
@@ -215,31 +216,25 @@ export default function CategoryTableSection() {
     <DataTableCard
       data={filteredCategories}
       columns={columns}
-      keyExtractor={(item) => item.id}
-      searchPlaceholder="Search categories by name..."
-      searchTerm={searchTerm}
+      search={searchTerm}
       onSearchChange={setSearchTerm}
       currentPage={currentPage}
-      totalPages={2}
       totalItems={mockCategories.length}
       onPageChange={setCurrentPage}
       minTableWidth="min-w-[640px]"
       filters={
         <>
-          <PeriodDropdown
+          <TableFilterDropdown
+            label="Filter by Status"
             value={selectedStatus}
             options={["All Status", "Active", "Inactive"]}
             onChange={setSelectedStatus}
-            icon={SlidersHorizontal}
-            className="flex-1 sm:flex-initial"
-            buttonClassName="w-full sm:w-auto h-10 text-[12px] sm:text-[13px]"
           />
 
           <PeriodDropdown
-            value="Sort by: Name"
+            defaultValue="Sort by: Name"
             options={["Sort by: Name", "Sort by: Products", "Sort by: Sales"]}
-            className="flex-1 sm:flex-initial"
-            buttonClassName="w-full sm:w-auto h-10 text-[12px] sm:text-[13px]"
+            roundedFull={true}
           />
         </>
       }

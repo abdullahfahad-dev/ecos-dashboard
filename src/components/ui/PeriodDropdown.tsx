@@ -1,58 +1,36 @@
 "use client";
 
-import React, {
-  useState,
-  useEffect,
-  useRef,
-  useCallback,
-  memo,
-} from "react";
-import { ChevronDown } from "lucide-react";
+import React, { useState, useRef, useEffect, memo } from "react";
+import { Calendar, ChevronDown } from "lucide-react";
 
 export interface PeriodDropdownProps {
-  value?: string;
+  defaultValue?: string;
   options?: string[];
   onChange?: (val: string) => void;
-  icon?: React.ElementType;
-  className?: string;
-  buttonClassName?: string;
+  showIcon?: boolean;
   roundedFull?: boolean;
 }
 
 const defaultOptions = ["Weekly", "Monthly", "Quarterly", "Yearly"];
 
 function PeriodDropdownComponent({
-  value,
+  defaultValue,
   options = defaultOptions,
   onChange,
-  icon: Icon,
-  className = "",
-  buttonClassName = "",
+  showIcon = false,
   roundedFull = false,
 }: PeriodDropdownProps) {
-
   const [selected, setSelected] = useState<string>(
-    () => value ?? options[0] ?? "Monthly"
+    () => defaultValue ?? options[0] ?? ""
   );
-
   const [isOpen, setIsOpen] = useState(false);
-
   const containerRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (value !== undefined) {
-      setSelected(value);
-    }
-  }, [value]);
-
-  const handleSelect = useCallback(
-    (option: string) => {
-      setSelected(option);
-      onChange?.(option);
-      setIsOpen(false);
-    },
-    [onChange]
-  );
+  const handleSelect = (option: string) => {
+    setSelected(option);
+    onChange?.(option);
+    setIsOpen(false);
+  };
 
   useEffect(() => {
     if (!isOpen) return;
@@ -71,35 +49,20 @@ function PeriodDropdownComponent({
     };
   }, [isOpen]);
 
-  useEffect(() => {
-    if (!isOpen) return;
-
-    const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setIsOpen(false);
-      }
-    };
-
-    document.addEventListener("keydown", handleEscape);
-
-    return () => {
-      document.removeEventListener("keydown", handleEscape);
-    };
-  }, [isOpen]);
-
   const radiusClass = roundedFull ? "rounded-full" : "rounded-xl";
 
   return (
-    <div className={`relative ${className}`} ref={containerRef}>
+    <div className="relative" ref={containerRef}>
       <button
         type="button"
         onClick={() => setIsOpen((prev) => !prev)}
-        className={`flex items-center justify-center gap-1.5 px-3 sm:px-3.5 py-1.5 h-[34px] border border-[var(--right-border)] ${radiusClass} text-[12px] font-medium text-[var(--right-text-main)] hover:bg-[var(--right-surface)] transition-colors cursor-pointer shrink-0 shadow-2xs ${buttonClassName}`}
         aria-expanded={isOpen}
         aria-haspopup="listbox"
+        aria-label={`Selected period: ${selected}`}
+        className={`flex items-center justify-center gap-1.5 px-3 sm:px-3.5 py-1.5 h-[34px] border border-[var(--right-border)] ${radiusClass} text-[12px] font-medium text-[var(--right-text-main)] hover:bg-[var(--right-surface)] transition-colors cursor-pointer shrink-0 shadow-2xs`}
       >
-        {Icon && (
-          <Icon className="w-3.5 h-3.5 text-[var(--right-text-muted)] shrink-0" />
+        {showIcon && (
+          <Calendar className="w-3.5 h-3.5 text-[var(--right-text-muted)] shrink-0" />
         )}
 
         <span className="whitespace-nowrap">{selected}</span>
@@ -111,23 +74,24 @@ function PeriodDropdownComponent({
         />
       </button>
 
-      {isOpen && (
+      {isOpen && options.length > 0 && (
         <div
-          className="absolute right-0 top-full mt-1.5 z-40 min-w-[130px] p-1 bg-[var(--right-bg)] border border-[var(--right-border)] rounded-xl shadow-lg animate-in fade-in zoom-in-95 duration-150"
           role="listbox"
+          aria-label="Period options"
+          className="absolute right-0 top-full mt-1.5 z-40 min-w-[130px] p-1 bg-[var(--right-bg)] border border-[var(--right-border)] rounded-xl shadow-lg animate-in fade-in zoom-in-95 duration-150"
         >
           {options.map((opt) => (
             <button
               key={opt}
               type="button"
+              role="option"
+              aria-selected={selected === opt}
               onClick={() => handleSelect(opt)}
               className={`flex items-center w-full px-3 py-1.5 text-[12px] font-medium rounded-lg transition-colors cursor-pointer text-left ${
                 selected === opt
                   ? "bg-[var(--primary-color)] text-[var(--primary-text)] font-semibold"
                   : "text-[var(--right-text-muted)] hover:text-[var(--right-text-main)] hover:bg-[var(--right-surface)]"
               }`}
-              role="option"
-              aria-selected={selected === opt}
             >
               {opt}
             </button>
@@ -138,4 +102,8 @@ function PeriodDropdownComponent({
   );
 }
 
-export default memo(PeriodDropdownComponent);
+const PeriodDropdown = memo(
+  PeriodDropdownComponent
+) as typeof PeriodDropdownComponent;
+
+export default PeriodDropdown;

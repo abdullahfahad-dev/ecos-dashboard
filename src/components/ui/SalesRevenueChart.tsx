@@ -113,7 +113,7 @@ function SalesRevenueChartComponent({
           )}
 
           <PeriodDropdown
-            value={periodLabel}
+            defaultValue={periodLabel}
             options={periodOptions}
             onChange={onPeriodChange}
           />

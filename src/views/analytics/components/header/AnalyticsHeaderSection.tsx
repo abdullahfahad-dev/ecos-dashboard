@@ -29,7 +29,7 @@ export default function AnalyticsHeaderSection() {
 
       <div className="flex items-center gap-2.5 sm:gap-3 shrink-0 flex-wrap sm:flex-nowrap">
         <PeriodDropdown
-          value="Jan 1, 2026 – Aug 31, 2026"
+          defaultValue="Jan 1, 2026 – Aug 31, 2026"
           options={[
             "Today",
             "Last 7 Days",
@@ -38,9 +38,8 @@ export default function AnalyticsHeaderSection() {
             "Jan 1, 2026 – Aug 31, 2026",
             "This Year",
           ]}
-          icon={Calendar}
+          showIcon={true}
           roundedFull={true}
-          buttonClassName="h-10 text-[12px] sm:text-[13px] bg-[var(--right-surface)] px-3.5 sm:px-4"
         />
 
         <button className="flex items-center gap-2 h-10 px-4 sm:px-4.5 bg-[var(--primary-color)] hover:bg-[var(--primary-hover)] text-[var(--primary-text)] rounded-full text-[12px] sm:text-[13px] font-semibold transition-all cursor-pointer shadow-xs">
